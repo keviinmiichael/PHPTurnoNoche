@@ -1,0 +1,17 @@
+*{
+    box-sizing: border-box;
+}
+
+
+body{
+	background-color: #eff0ef;
+	font-family: sans-serif;
+}
+
+.data-form{
+	width: 800px;
+	margin: 30px auto;
+	padding: 15px 40px;;
+	border: solid 1px #ccc;
+    text-align: center;
+}
