@@ -71,21 +71,33 @@ if ($_POST) {
             <div class="form-group">
                 <label for="name">Nombre:</label>
                 <input type="text" class="form-control" name="name" value="<?=$name?>">
+                <?php if (isset($errores['name'])): ?>
+    				<span style="color: red;"><?=$errores['name'];?></span>
+    			<?php endif; ?>
             </div>
             <br><br>
             <div class="form-group">
                 <label for="name">Email:</label>
                 <input class="form-control" type="text" name="email" value="<?=$email?>">
+                <?php if (isset($errores['email'])): ?>
+    				<span style="color: red;"><?=$errores['email'];?></span>
+    			<?php endif; ?>
             </div>
             <br><br>
             <div class="form-group">
                 <label for="name">Contraseña:</label>
                 <input class="form-control" type="text" name="pass" value="">
+                <?php if (isset($errores['pass'])): ?>
+    				<span style="color: red;"><?=$errores['pass'];?></span>
+    			<?php endif; ?>
             </div>
             <br><br>
             <div class="form-group">
                 <label for="name">Repetir Contraseña:</label>
                 <input class="form-control" type="text" name="rpass" value="">
+                <?php if (isset($errores['pass'])): ?>
+    				<span style="color: red;"><?=$errores['pass'];?></span>
+    			<?php endif; ?>
             </div>
             <br><br>
             <div class="form-group">
@@ -100,6 +112,9 @@ if ($_POST) {
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
+                <?php if (isset($errores['pais'])): ?>
+    				<span style="color: red;"><?=$errores['pais'];?></span>
+    			<?php endif; ?>
             </div>
             <br><br>
             <button class="btn btn-primary mb-2" type="submit">Enviar</button>
