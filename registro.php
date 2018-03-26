@@ -119,6 +119,14 @@ if ($_POST) {
             <br><br>
             <button class="btn btn-primary mb-2" type="submit">Enviar</button>
         </form>
+
+        <div class="div-errores">
+            <ul>
+            <?php foreach ($errores as $value): ?>
+                <li><?=$value?></li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
         </div>
     </body>
     <!-- Latest compiled and minified JavaScript -->
