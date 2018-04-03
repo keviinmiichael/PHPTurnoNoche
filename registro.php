@@ -1,6 +1,11 @@
 <?php
 require_once('funciones.php');
 
+if (estaLogueado()) {
+    header('location:perfil.php');
+    exit;
+}
+
 $paises = ['Argentina', 'Brasil', 'Colombia', 'Sin Mundial'];
 
 $name = '';
@@ -13,36 +18,21 @@ if ($_POST) {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $pais = trim($_POST['pais']);
-    $pass = trim($_POST['pass']);
-    $rpass = trim($_POST['rpass']);
 
-    if ($name == '') {
-        $errores['name'] = "Completa tu nombre";
-    }
-    if ($pais == '') {
-        $errores['pais'] = "Decime de donde sos";
-    }
-    if ($email == '') {
-        $errores['email'] = "Completa tu email";
-    }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errores['email'] = "Por favor poner un email de verdad, gatx.";
-    }
-    if ($pass == '' || $rpass == '') {
-        $errores['pass'] = "Por favor completa tus passwords";
-    }elseif ($pass != $rpass) {
-        $errores['pass'] = "Tus contraseñas no coinciden";
-    }
+
+    $errores = validar($_POST, 'avatar');
 
 
     if (empty($errores)) {
-    // if (count($errores) == 0) {
-        $usuario = crearUsuario($_POST);
-        $userEnJSON = json_encode($usuario);
 
-        var_dump($userEnJSON);
+        $errores = guardarImagen('avatar');
 
-        file_put_contents('usuarios.json', $userEnJSON . PHP_EOL, FILE_APPEND);
+        if (count($errores) == 0) {
+            guardarUsuario($_POST, 'avatar');
 
+            header('location:felicidades.php');
+            exit;
+        }
 
     }
 
@@ -67,7 +57,7 @@ if ($_POST) {
     </head>
     <body>
         <div class="data-form">
-        <form  method="post">
+        <form  method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Nombre:</label>
                 <input type="text" class="form-control" name="name" value="<?=$name?>">
@@ -117,16 +107,26 @@ if ($_POST) {
     			<?php endif; ?>
             </div>
             <br><br>
+            <div class="form-group">
+                <label for="name">Cargá tu imagen:</label>
+                <input class="form-control" type="file" name="avatar" value="">
+                <?php if (isset($errores['pass'])): ?>
+    				<span style="color: red;"><?=$errores['avatar'];?></span>
+    			<?php endif; ?>
+            </div>
+            <br><br>
             <button class="btn btn-primary mb-2" type="submit">Enviar</button>
         </form>
 
-        <div class="div-errores">
-            <ul>
-            <?php foreach ($errores as $value): ?>
-                <li><?=$value?></li>
-            <?php endforeach; ?>
-            </ul>
-        </div>
+        <?php if (count($errores) > 0 ): ?>
+            <div class="div-errores">
+                <ul>
+                <?php foreach ($errores as $value): ?>
+                    <li><?=$value?></li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
         </div>
     </body>
     <!-- Latest compiled and minified JavaScript -->
